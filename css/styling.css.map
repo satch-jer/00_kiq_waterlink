@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEQ,8EAAsE;AAmB9E,MAAM;EACJ,KAAK,EAdE,OAAO;EAed,YAAY,EARV,IAAI;;AAWR,aAAa;EACX,YAAY,EAAE,kBAAkB",
+"sources": ["../sass/styling.scss"],
+"names": [],
+"file": "styling.css"
+}

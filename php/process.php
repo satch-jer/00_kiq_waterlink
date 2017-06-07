@@ -3,9 +3,10 @@
 //includes
 include_once 'classes/Mailin.php';
 include_once 'classes/Player.php';
+include_once 'helper.php';
 
 //vars
-$vraag_een = $vraag_twee = $naam = $voornaam = $straat = $huisnummer = $postcode = $stad = $telefoonnummer = $verjaardag = $email = "";
+$vraag_een = $vraag_twee = $naam = $voornaam = $straat = $huisnummer = $postcode = $stad = $telefoonnummer = $verjaardag = $email = $conditions = $marketing = "";
 $feedback_success = $feedback_error = "";
 
 //array with errors
@@ -17,6 +18,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $player = new Player();
 
     //=== required fields ====
+
+    //vraag_een
+    if(empty($_POST["vraag_een"])){
+        $errors["vraag_een"] = "Je moet wel antwoorden om te kunnen winnen ...";
+    }else{
+        $vraag_een = test_input($_POST["vraag_een"]);
+    }
+
+    //vraag_twee
+    if(empty($_POST["vraag_twee"])){
+        $errors["vraag_twee"] = "Doe een gokje!";
+    }else{
+        $vraag_twee = test_input($_POST["vraag_twee"]);
+        if (!filter_var($vraag_twee, FILTER_VALIDATE_INT) || strlen($vraag_twee) > 10) {
+            $errors["vraag_twee"] = "Het antwoord moet een cijfer van maximaal 10 karakters zijn.";
+        }
+    }
+
+    //email
+    if (empty($_POST["email"])) {
+        $errors["email"] = "Hoe kunnen we je anders laten weten dat je gewonnen hebt?";
+    } else {
+        $email = test_input($_POST["email"]);
+        //check if users enters a valid emailaddress
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email > 255)) {
+            $errors["email"] = "Dit e-mailadres is niet geldig.";
+        } else if(empty($player->exist($email))){
+            $errors["email"] = "Dit e-mailadres is ons niet gekend, je kan niet deelnemen.";
+        }
+        //check if user can still participate
+        else if ($player->expirationDate($email) < date("Y-m-d")){
+            $errors["email"] = "De wedstrijd is ondertussen afgelopen, je kan niet meer deelnemen.";
+        }
+        //check if user hasn't participated yet
+        else if(!empty($player->participated($email))){
+            $errors["email"] = "Je hebt reeds deelgenomen, nog even geduld.";
+        }
+    }
 
     //naam
     if (empty($_POST["naam"])) {
@@ -51,43 +90,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    //email
-    if (empty($_POST["email"])) {
-        $errors["email"] = "Hoe kunnen we je anders laten weten dat je gewonnen hebt?";
+    //conditions
+    if(isset($_POST['conditions']) && $_POST['conditions'] == 'yes') {
+        $conditions = $_POST['conditions'];
     } else {
-        $email = test_input($_POST["email"]);
-        //check if users enters a valid emailaddress
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email > 255)) {
-            $errors["email"] = "Dit e-mailadres is niet geldig.";
-        } else if(empty($player->exist($email))){
-            $errors["email"] = "Dit e-mailadres is ons niet gekend, je kan niet deelnemen.";
-        }
-        //check if user can still participate
-        else if ($player->expirationDate($email) < date("Y-m-d")){
-            $errors["email"] = "De wedstrijd is ondertussen afgelopen, je kan niet meer deelnemen.";
-        }
-        //check if user hasn't participated yet
-        else if(empty($player->participated($email))){
-            $errors["email"] = "Je hebt reeds deelgenomen, nog even geduld.";
-        }
+        $errors['conditions'] = "Gelieve de algemene voorwaarden te accepteren";
     }
 
-    //vraag_een
-    if(empty($_POST["vraag_een"])){
-        $errors["vraag_een"] = "Je moet wel antwoorden om te kunnen winnen ...";
-    }else{
-        $vraag_een = test_input($_POST["vraag_een"]);
-    }
-
-    //vraag_twee
-    if(empty($_POST["vraag_twee"])){
-        $errors["vraag_twee"] = "Je moet wel antwoorden om te kunnen winnen ...";
-    }else{
-        $vraag_twee = test_input($_POST["vraag_twee"]);
-        if (!filter_var($vraag_twee, FILTER_VALIDATE_INT) || strlen($vraag_twee) > 10) {
-            $errors["vraag_twee"] = "Het antwoord moet een cijfer van maximaal 10 karakters zijn.";
-        }
-    }
 
     //=== optional fields ===
 
@@ -128,15 +137,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $verjaardag = test_input($_POST["verjaardag"]);
     }
 
+    //marketing
+    $marketing = test_input($_POST["marketing"]);
+
     //if all the errors are empty, only then send the message
     if(count($errors) > 0){
         //if ajax request
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            echo json_encode($errors);
             exit();
         }
         //no ajax, just use php form submission
         foreach ($errors as $key => $value) {
-        ${$key . '_error'} = $value;
+            ${$key . '_error'} = $value;
         }
     }else{
         if(sendMail($email)){
@@ -150,16 +163,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $player->birthday = $verjaardag;
             $player->question_1 = $vraag_een;
             $player->question_2 = $vraag_twee;
-            $player->conditions = 1;
-            $player->marketing = 1;
+            $player->conditions = $conditions;
+            $player->marketing = $marketing;
+
+            //if ajax request
+            if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+                if($player->updatePlayer($email)) {
+                    echo json_encode('true');
+                }else{
+                    echo json_encode('false');
+                }
+                exit();
+            }
 
             //update player in db
-            if($player->updatePlayer($recipient)){
+            if($player->updatePlayer($email)){
                 $feedback_success = "Woehoew, deelname voltooid!";
             }else{
                 $feedback_error = "Er ging iets mis met het opslaan van de gebruiker in de databank, probeer later opnieuw.";
             }
         }else{
+            //if ajax request
+            if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                echo json_encode('false');
+                exit();
+            }
+
             $feedback_error = "Er ging iets mis tijdens je deelname, probeer later opnieuw.";
         }
     }
@@ -181,12 +210,4 @@ function sendMail($recipient){
     }else{
         return false;
     }
-}
-
-//function that strips out unnecessary spaces and slashes, and escapes all the special HTML characters.
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
 }

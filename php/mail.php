@@ -8,10 +8,13 @@
 
 //includes
 include_once 'classes/Player.php';
+include_once 'helper.php';
 
-
+//create new player object
 $player = new Player();
-$email = $_POST["email"];
+
+//get value + test
+$email = test_input($_POST["email"]);
 
 if(empty($player->exist($email))){
     $error = "Dit e-mailadres is ons niet gekend, je kan niet deelnemen.";
