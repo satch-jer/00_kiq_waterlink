@@ -15,16 +15,31 @@ include('php/process.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" href="css/styling.css">
-    <title>Water-Link</title>
+    <title>Neem nu deel | Water-Link</title>
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Water-Link</h1>
+    <div class="page-header">
+        <img id="logo" src="assets/logo.png" alt="Water-Link">
+        <h1>Win een Sodastream dankzij Water-Link</h1>
+        <img id="banner" src="assets/picture.png" alt="Win een Sodastream dankzij Water-Link">
+        <p>Leuk dat we jouw hebben gezien op één van onze festivals en bedankt voor jouw inschrijving.</p>
+        <p>Neem nu deel aan onze wedstrijd en win dankzij Water-Link een gratis SodaStream om zelf, thuis bruisend kraantjeswater te maken in no time! Veel succes! </p>
+
+    </div>
+
+    </header>
+
 
     <form novalidate method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+
+        <div class="well well-sm">
+            <h2>Wedstrijdvraag:</h2>
+        </div>
+
         <div class="form-group">
             <label for="vraag_een">Indien je alle dagen van het jaar 1,5 liter kraantjeswater zou drinken, wat zou de kostprijs zijn?</label>
             <select class="form-control" name="vraag_een" id="vraag_een">
@@ -42,6 +57,10 @@ include('php/process.php');
             <label for="vraag_twee">Hoeveel mensen zullen aan deze wedstrijd deelnemen? (*)</label>
             <input class="form-control" type="text" id="vraag_twee" name="vraag_twee" placeholder="Ik weet het hoor! (*)" value="<?php echo $vraag_twee;?>">
             <span class="error" id="vraag_twee_error"><?= $vraag_twee_error ?></span>
+        </div>
+
+        <div class="well well-sm">
+            <h2>Jouw gegevens:</h2>
         </div>
 
         <div class="form-group">
@@ -64,12 +83,12 @@ include('php/process.php');
 
         <div class="form-group">
             <label for="straat">Straat</label>
-            <input class="form-control" type="text" name="straat" placeholder="Straat" value="<?php echo $straat;?>">
+            <input class="form-control" type="text" id="straat" name="straat" placeholder="Straat" value="<?php echo $straat;?>">
             <span class="error" id="straat_error"><?= $straat_error ?></span>
         </div>
         <div class="form-group">
             <label for="huisnummer">Huisnummer</label>
-            <input class="form-control" type="text" name="huisnummer" placeholder="Huisnummer" value="<?php echo $huisnummer;?>">
+            <input class="form-control" type="text" id="huisnummer" name="huisnummer" placeholder="Huisnummer" value="<?php echo $huisnummer;?>">
             <span class="error" id="huisnummer_error"><?= $huisnummer_error ?></span>
         </div>
 
@@ -82,34 +101,36 @@ include('php/process.php');
 
         <div class="form-group">
             <label for="stad">Stad</label>
-            <input class="form-control" type="text" name="stad" placeholder="Stad" value="<?php echo $stad;?>">
+            <input class="form-control" type="text" id="stad" name="stad" placeholder="Stad" value="<?php echo $stad;?>">
             <span class="error" id="stad_error"><?= $stad_error ?></span>
         </div>
 
         <div class="form-group">
             <label for="telefoonnummer">Telefoonnummer</label>
-            <input class="form-control" type="text" name="telefoonnummer" placeholder="Telefoonnummer" value="<?php echo $telefoonnummer;?>">
+            <input class="form-control" type="text" id="telefoonnummer" name="telefoonnummer" placeholder="Telefoonnummer" value="<?php echo $telefoonnummer;?>">
             <span class="error" id="telefoonnummer_error"><?= $telefoonnummer_error ?></span>
         </div>
 
         <div class="form-group">
             <label for="verjaardag">Geboortedatum</label>
-            <input class="form-control" type="date" name="verjaardag" value="<?php echo $verjaardag;?>">
+            <input class="form-control" type="date" id="verjaardag" name="verjaardag" value="<?php echo $verjaardag;?>">
             <span class="error" id="verjaardag_error"><?= $verjaardag_error ?></span>
         </div>
 
-        <div class="checkbox">
-            <label><input type="checkbox" name="conditions" id="conditions" value="yes">Ik aanvaard <a href="conditions.html">de algemene actievoorwaarden en privacy bepalingen</a> (*)</label>
-            <span class="error" id="conditions_error"><?php echo $conditions_error ?></span>
-        </div>
+        <div id="checkboxes">
+            <div class="checkbox">
+                <label><input type="checkbox" name="conditions" id="conditions" value="yes">Ik aanvaard <a href="public/conditions.html">de algemene actievoorwaarden en privacy bepalingen</a> (*)</label>
+                <span class="error" id="conditions_error"><?php echo $conditions_error ?></span>
+            </div>
 
-        <div class="checkbox">
-            <input type="hidden" name="marketing" value="no">
-            <label><input type="checkbox" name="marketing" id="marketing" value="yes">Mijn e-mailadres mag voor andere doeleinden gebruikt worden</label>
+            <div class="checkbox">
+                <input type="hidden" name="marketing" value="no">
+                <label><input type="checkbox" name="marketing" id="marketing" value="yes">Mijn e-mailadres mag voor andere doeleinden gebruikt worden</label>
+            </div>
         </div>
 
         <div class="form-group">
-            <input class="btn btn-default" type="submit" name="submit" value="Ja, ik wil een SodaStream ontvangen!" >
+            <input id="submit" class="btn btn-default" type="submit" name="submit" value="Ja, ik doe mee!" >
             <span class="success" id="feedback_success"><?= $feedback_success ?></span>
             <span class="error" id="feedback_error"><?= $feedback_error ?></span>
         </div>

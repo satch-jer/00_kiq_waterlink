@@ -97,7 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['conditions'] = "Gelieve de algemene voorwaarden te accepteren";
     }
 
-
     //=== optional fields ===
 
     //straat
@@ -120,14 +119,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!empty($_POST["stad"])){
         $stad = test_input($_POST["stad"]);
         if(strlen($stad) > 100){
-            $errors["stad"] = "De opgegeven straatnaam is wel wat lang ...";
+            $errors["stad"] = "De opgegeven stadsnaam is wel wat lang ...";
         }
     }
 
     //telefoonnummer
     if(!empty($_POST["telefoonnummer"])){
         $telefoonnummer = test_input($_POST["telefoonnummer"]);
-        if(strlen($telefoonnummer) > 12 || strlen($telefoonnummer) < 8 || !filter_var($telefoonnummer, FILTER_VALIDATE_INT)){
+        if(strlen($telefoonnummer) > 12){
             $errors["telefoonnummer"] = "Een telefoonnummer mag enkel uit cijfers bestaan en moet tussen de 8 en de 12 cijfers bevatten.";
         }
     }

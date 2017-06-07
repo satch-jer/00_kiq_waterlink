@@ -19,11 +19,93 @@ $l: 35px;
 $xl: 50px;
 $xxl: 75px;
 
+//===frame===
+
+html{
+  //make sure fonts are sharp!
+  -webkit-font-smoothing: antialiased;
+}
+
+body{
+  //font default
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: $night;
+
+  //div elements have padding and border included in total width & height
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+//===elements===
+h1{
+  font-size: 32px !important;
+  color: $smurf !important;
+  font-weight: 700;
+}
+
+h2{
+  font-size: 18px;
+  color: white;
+  margin-bottom: $m;
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+#logo{
+  margin-bottom: $m;
+}
+
+#banner{
+  width: 100%;
+  margin-top: $m;
+  margin-bottom: $m;
+}
+
+p{
+  margin-bottom: $m;
+}
+
+.well-sm{
+  margin-top: $xl !important;
+  margin-bottom: $l;
+  background-color: $smurf;
+  border: none;
+}
+
+//===form===
+
+span{
+  display: block;
+}
+
 .error{
   color: $orange;
   padding-left: $s;
+  padding-top: $xs;
+}
+
+#conditions_error{
+  padding-left: $m !important;
 }
 
 .error_border{
   border-color: $orange !important;
+}
+
+.success{
+  color: limegreen;
+  padding-left: $s;
+  padding-top: $xs;
+}
+
+#submit, #checkboxes{
+  margin-top: $m;
+}
+
+#submit:hover{
+  border-color: $smurf;
+  background-color: $smurf;
+  color: white;
 }

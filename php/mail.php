@@ -16,6 +16,9 @@ $player = new Player();
 //get value + test
 $email = test_input($_POST["email"]);
 
+//errormessage
+$error = "";
+
 if(empty($player->exist($email))){
     $error = "Dit e-mailadres is ons niet gekend, je kan niet deelnemen.";
 }
@@ -29,3 +32,4 @@ else if(!empty($player->participated($email))){
 }
 
 echo json_encode($error);
+

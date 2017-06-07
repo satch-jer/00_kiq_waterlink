@@ -1,9 +1,69 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700");
+html {
+  -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #202020;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+h1 {
+  font-size: 32px !important;
+  color: #2d77bd !important;
+  font-weight: 700; }
+
+h2 {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 23px;
+  margin-left: 2px;
+  font-weight: 700; }
+
+#logo {
+  margin-bottom: 23px; }
+
+#banner {
+  width: 100%;
+  margin-top: 23px;
+  margin-bottom: 23px; }
+
+p {
+  margin-bottom: 23px; }
+
+.well-sm {
+  margin-top: 50px !important;
+  margin-bottom: 35px;
+  background-color: #2d77bd;
+  border: none; }
+
+span {
+  display: block; }
+
 .error {
   color: #f5812c;
-  padding-left: 15px; }
+  padding-left: 15px;
+  padding-top: 5px; }
+
+#conditions_error {
+  padding-left: 23px !important; }
 
 .error_border {
   border-color: #f5812c !important; }
+
+.success {
+  color: limegreen;
+  padding-left: 15px;
+  padding-top: 5px; }
+
+#submit, #checkboxes {
+  margin-top: 23px; }
+
+#submit:hover {
+  border-color: #2d77bd;
+  background-color: #2d77bd;
+  color: white; }
 
 /*# sourceMappingURL=styling.css.map */

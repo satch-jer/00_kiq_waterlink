@@ -2,13 +2,16 @@ $('.error').hide();
 
 $(document).ready(function(){
 
-    //errorfields as jquery objects
-    var $naam_error = $("#naam_error");
-    var $voornaam_error = $("#voornaam_error");
-    var $postcode_error = $("#postcode_error");
-    var $vraag_een_error = $('#vraag_een_error');
-    var $vraag_twee_error = $('#vraag_twee_error');
-    var $email_error = $('#email_error');
+    //check input q1
+    $("#vraag_een").on("focusout", function(e){
+        e.preventDefault();
+
+        if($(this).selectedIndex == 0){
+            addError($(this), "Je moet wel antwoorden om te kunnen winnen ...");
+        }else{
+            removeError($(this));
+        }
+    });
 
     //check input q2
     $("#vraag_twee").on("focusout", function(e){
@@ -16,14 +19,11 @@ $(document).ready(function(){
 
         //check if empty
         if(checkEmpty($(this).val())){
-            addErrorBorder($(this));
-            $vraag_twee_error.text("Doe een gokje!").show();
+            addError($(this), "Doe een gokje!");
         }else{
-            removeErrorBorder($(this));
-            $vraag_twee_error.text("").hide();
+            removeError($(this));
         }
     });
-
 
     //check input naam
     $("#naam").on("focusout", function(e){
@@ -31,11 +31,9 @@ $(document).ready(function(){
 
         //check if empty
         if(checkEmpty($(this).val())){
-            addErrorBorder($(this));
-            $naam_error.text("Wij kennen graag jouw naam.").show();
+            addError($(this), "Wij kennen graag jouw naam.");
         }else{
-            removeErrorBorder($(this));
-            $naam_error.text("").hide();
+            removeError($(this));
         }
     });
 
@@ -45,11 +43,9 @@ $(document).ready(function(){
 
         //check if empty
         if(checkEmpty($(this).val())){
-            addErrorBorder($(this));
-            $voornaam_error.text("Wij kennen graag jouw voornaam.").show();
+            addError($(this), "Wij kennen graag jouw voornaam.");
         }else{
-            removeErrorBorder($(this));
-            $voornaam_error.text("").hide();
+            removeError($(this));
         }
     });
 
@@ -58,12 +54,10 @@ $(document).ready(function(){
         e.preventDefault();
 
         //check if empty
-        if(checkEmpty($(this).val())){
-            addErrorBorder($(this));
-            $postcode_error.text("Postcode is een verplicht veld.").show();
+        if(checkEmpty($(this).val()) || ($(this).val().length != 4)){
+            addError($(this), "Postcode is een verplicht numeriek veld van 4 karakters lang.");
         }else{
-            removeErrorBorder($(this));
-            $postcode_error.text("").hide();
+            removeError($(this));
         }
     });
 
@@ -71,15 +65,21 @@ $(document).ready(function(){
     $("#email").on("focusout", function(e){
         e.preventDefault();
 
+        //enable submit
+        $("#submit").prop("disabled", false);
+
+        //remove error styling
+        removeError($(this));
+
+        //value of inputfield
         var email = $(this).val();
 
         $.post("php/mail.php", {email: email},
             function(result){
-                if(result != 'null'){
-                    addErrorBorder($("#email"));
-                    $email_error.text(result).show();
-                }else{
-                    $email_error.text("").hide();
+                if(result != ""){
+                    addError($("#email"), result);
+                    //disable submit
+                    $("#submit").prop("disabled", true);
                 }
             }, "json"
         );
@@ -92,7 +92,6 @@ $(document).ready(function(){
 
         //reset errors
         $('.error').text("").hide();
-        removeErrorBorder($('input'));
 
         //do ajax submission
         $.ajax({
@@ -103,20 +102,33 @@ $(document).ready(function(){
             encode: true
         }).done(function(data){
            if(data == 'true'){
+               //reset form
+               $('form')[0].reset();
+
+               //disable submit
+               $("#submit").prop("disabled", true);
+
+               //show feedback
                $("#feedback_success").text("Woehoew, deelname voltooid!");
            }else{
+               console.log(data);
                //set errormessages
                $.each(data, function(i,v){
-                   //display error messages
-                   var errorfield = "#" + i + "_error";
-                   addErrorBorder($("#" + i));
-                   $(errorfield).text(v).show();
+                   if(i!="conditions"){
+                       //display error messages
+                       addError($("#" + i), v);
+                   }
+
+                   //for conditions error
+                   if(i=="conditions"){
+                       $("#conditions").addClass("error_border");
+                       $("#conditions_error").text(v).show();
+                   }
                });
                //give focus to first 'error'
                var keys = Object.keys(data);
                $('#' + keys[0]).focus();
            }
-
         });
     });
 });
@@ -129,10 +141,18 @@ function checkEmpty(inputvalue) {
     }
 }
 
-function removeErrorBorder(errorfield){
+function removeError(errorfield){
+    //remove border
     errorfield.removeClass('error_border');
+
+    //make span invisible
+    errorfield.next(".error").text("").hide();
 }
 
-function addErrorBorder(errorfield){
+function addError(errorfield, textmessage){
+    //add error border
     errorfield.addClass('error_border');
+
+    //make span visibile + show text
+    errorfield.next(".error").text(textmessage).show();
 }
