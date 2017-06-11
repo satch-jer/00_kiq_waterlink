@@ -2,6 +2,21 @@ $('.error').hide();
 
 $(document).ready(function(){
 
+    //smooth scroll on btn click
+    $("#play").on("click", function(e){
+
+        //href attribuut waarop geklikt werd
+        var target = $($(this).find('a').attr("href"));
+
+        //positie van href opvragen
+        var position = target.offset().top;
+
+        //animatie uitvoeren
+        $("html,body").animate({"scrollTop": position}, 500);
+
+        e.preventDefault();
+    });
+
     //check input q1
     $("#vraag_een").on("focusout", function(e){
         e.preventDefault();
@@ -85,6 +100,15 @@ $(document).ready(function(){
         );
     });
 
+    //check conditions
+    $("#conditions").change(function() {
+        if(this.checked) {
+            $('#conditions_error').hide();
+        }else{
+            $('#conditions_error').text('Gelieve de algemene voorwaarden te accepteren').show();
+        }
+    });
+
     //full ajax submission
     $('form').submit(function(e) {
         //prevent default
@@ -111,7 +135,6 @@ $(document).ready(function(){
                //show feedback
                $("#feedback_success").text("Woehoew, deelname voltooid!");
            }else{
-               console.log(data);
                //set errormessages
                $.each(data, function(i,v){
                    if(i!="conditions"){
@@ -121,7 +144,6 @@ $(document).ready(function(){
 
                    //for conditions error
                    if(i=="conditions"){
-                       $("#conditions").addClass("error_border");
                        $("#conditions_error").text(v).show();
                    }
                });

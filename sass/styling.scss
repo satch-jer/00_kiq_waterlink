@@ -8,6 +8,7 @@ $concrete: #e5e5e5;
 $night: #202020;
 $orange: #f5812c;
 $smurf: #2d77bd;
+$sky: #cceaed;
 $ratten: #652b7c;
 
 //===values===
@@ -29,83 +30,280 @@ html{
 body{
   //font default
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 16px;
-  line-height: 20px;
+  font-size:62.5%;
+  font-weight: 400;
   color: $night;
 
   //div elements have padding and border included in total width & height
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
+
+  //overflow hidden
+  overflow-x:hidden;
+  
+  //background-color
+  background-color: $concrete;
 }
 
-//===elements===
-h1{
-  font-size: 32px !important;
-  color: $smurf !important;
-  font-weight: 700;
+//===landing page===
+.jumbotron{
+  background: transparent !important;
+  height: 100vh;
 }
 
-h2{
-  font-size: 18px;
-  color: white;
-  margin-bottom: $m;
-  margin-left: 2px;
-  font-weight: 700;
+.jumbotron-fluid {
+  padding:0;
 }
 
-#logo{
-  margin-bottom: $m;
+.parallax {
+  text-align:center;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-attachment:fixed!important;
+  overflow:hidden;
+  height: 100%;
 }
 
-#banner{
+.vertical-center{
   width: 100%;
-  margin-top: $m;
-  margin-bottom: $m;
+  position: absolute;
+  top:50%;
+  left: 0%;
+  transform:translate(0%, -50%);
+  -webkit-transform:translate(0%, -50%);
 }
 
-p{
-  margin-bottom: $m;
-}
+.titles{
+  max-height: 100vh;
+  overflow: hidden;
 
-.well-sm{
-  margin-top: $xl !important;
-  margin-bottom: $l;
-  background-color: $smurf;
-  border: none;
+  width: 50%;
+  min-width: 350px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: rgba(255,255,255,.8);
+  padding-top: $xl*2;
+  padding-bottom: $xl*2;
+  border: 1px solid white;
+  border-radius: 5px;
+  img{
+    width: 50%;
+    min-width: 250px;
+    height: auto;
+    margin-bottom: $xl;
+  }
+  .btn-primary{
+    display: block;
+    margin: $xl auto 0 auto;
+    background-color: $orange;
+    border: 2px solid $orange;
+    border-radius: 5px;
+    width: 175px;
+    padding: $s 0;
+
+    a{
+      font-weight: 700;
+      color: white;
+      font-size: 1.6rem;
+    }
+    a:hover{
+      text-decoration: none;
+    }
+  }
+
+  .btn-primary:hover{
+    background-color: transparent;
+    border: 2px solid $orange;
+
+    a{
+      color: $orange;
+      text-decoration: none;
+    }
+  }
+
+  .btn-primary:focus, .btn-primary:active{
+    outline: none;
+    a{
+      text-decoration: none;
+    }
+  }
 }
 
 //===form===
+.questions, .info, .conditions{
+  margin-top: $xl;
+  margin-bottom: $xl;
 
-span{
-  display: block;
+  .title{
+    text-align: center;
+    color: white;
+    background-color: $orange;
+    font-size: 2rem;
+  }
+  h1{
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: $sky none repeat scroll 0 0;
+    color: white;
+    padding: $m $m;
+    border-radius: $xs $xs 0 0;
+    margin: auto;
+    text-shadow: none;
+    text-align:left
+  }
+
+  h3{
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: $orange none repeat scroll 0 0;
+    color: white;
+    padding: $m $m;
+    border-radius: $xs $xs 0 0;
+    margin: auto;
+    text-shadow: none;
+    text-align:left
+  }
+  .contentform{
+    background-color: white;
+    padding: $xl;
+
+    li{
+      font-size: 1.6rem;
+      line-height: 1.5;
+      margin-bottom: $s;
+    }
+  }
 }
 
-.error{
-  color: $orange;
-  padding-left: $s;
-  padding-top: $xs;
+.form-control{
+  //remove default ios styling
+  -webkit-appearance: none;
+
+  height: 45px;
 }
 
-#conditions_error{
-  padding-left: $m !important;
+#checkboxes{
+  margin-top: $xs;
+  margin-left: $xs;
+
+  .error{
+    margin-left: $l;
+  }
 }
 
-.error_border{
-  border-color: $orange !important;
+#buttons{
+  text-align: center;
+}
+
+label{
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: $s;
+
+  span{
+    color: red;
+  }
 }
 
 .success{
+  display: block;
   color: limegreen;
-  padding-left: $s;
+  font-size: 1.6rem;
   padding-top: $xs;
+  margin-left: $s;
 }
 
-#submit, #checkboxes{
-  margin-top: $m;
+.error{
+  //more margin inside checkboxes div
+  //see styling there
+  display: block;
+  color: $orange;
+  font-size: 1.6rem;
+  padding-top: $xs;
+  margin-left: $s;
 }
 
-#submit:hover{
-  border-color: $smurf;
+.error_border{
+  border: 1px solid $orange;
+}
+
+.btn-default{
+  margin-top: $l;
   background-color: $smurf;
   color: white;
+  font-weight: 700;
+  padding: $s $m;
+  border: 2px solid $smurf;
+}
+
+.btn-default:hover{
+  background-color: transparent;
+  color: $smurf;
+  border: 2px solid $smurf;
+}
+
+.btn-default:focus{
+  outline: none;
+}
+
+//remove box shadow from input fields
+.form-control{
+  box-shadow: none;
+}
+
+//overrride default focus of input field
+.form-control:focus {
+  /* remove for ios */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border-color: $sky;
+  box-shadow: none;
+}
+
+//custom checkboxes
+input[type=checkbox]{
+  -webkit-appearance: none;
+  background-color: white;
+  border: 1px solid $concrete;
+  box-shadow: none;
+  padding: 9px;
+  border-radius: $xs;
+  display: inline-block;
+  position: relative;
+}
+
+input[type=checkbox]:active, input[type=checkbox]:checked:active {
+  box-shadow: none;
+}
+
+input[type=checkbox]:checked {
+  background-color: white;
+  border: 1px solid $concrete;
+  box-shadow: none;
+  color: $night;
+}
+
+input[type=checkbox]:checked:after {
+  content: '\2714';
+  font-size: 1.4rem;
+  position: absolute;
+  top: 0;
+  left: 3px;
+  color: $night;
+}
+
+input[type=checkbox]:focus{
+  outline: none;
+}
+
+//===footer===
+.footer{
+  margin: $l 0 $xl 0;
+  text-align: center;
+  p{
+    font-size: 1.6rem;
+  }
 }

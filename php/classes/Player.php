@@ -16,7 +16,7 @@ class Player{
     private $birthday;
     private $question_1;
     private $question_2;
-    private $registration;
+    private $expiration;
     private $conditions;
     private $marketing;
 
@@ -59,8 +59,8 @@ class Player{
             case 'question_2':
                 $this->question_2 = $val;
                 break;
-            case 'registration':
-                $this->registration = $val;
+            case 'expiration':
+                $this->expiration = $val;
                 break;
             case 'conditions':
                 $this->conditions = $val;
@@ -100,8 +100,8 @@ class Player{
                 return $this->question_1;
             case 'question_2':
                 return $this->question_2;
-            case 'registration':
-                return $this->registration;
+            case 'expiration':
+                return $this->expiration;
             case 'conditions':
                 return $this->conditions;
             case 'marketing':
@@ -115,16 +115,13 @@ class Player{
     public function insertPlayer(){
         $db = Db::getInstance();
 
-        $stmt = $db->prepare("INSERT INTO players (mail, event, registration) VALUES(:mail, :event, :registration)");
+        $stmt = $db->prepare("INSERT INTO players (mail, expiration) VALUES(:mail, :expiration)");
         $stmt->bindParam(':mail', $this->mail);
-        $stmt->bindParam(':event', $this->event);
-        $stmt->bindParam(':registration', $this->registration);
+        $stmt->bindParam(':expiration', $this->expiration);
 
         if($stmt->execute()){
-            $db = null;
             return true;
         }else{
-            $db = null;
             return false;
         }
     }
@@ -154,8 +151,6 @@ class Player{
         $stmt->execute();
         $result = $stmt->fetch();
 
-        $db = null;
-
         return $result["lastname"];
     }
 
@@ -163,15 +158,13 @@ class Player{
     public function expirationDate($mail){
         $db = Db::getInstance();
 
-        $stmt = $db->prepare("SELECT registration FROM players WHERE mail = :mail");
+        $stmt = $db->prepare("SELECT expiration FROM players WHERE mail = :mail");
         $stmt->bindParam(':mail', $mail);
 
         $stmt->execute();
         $result = $stmt->fetch();
 
-        $db = null;
-
-        return $result["registration"];
+        return $result["expiration"];
     }
 
     //update after participation
@@ -207,12 +200,9 @@ class Player{
         $stmt->bindParam(':marketing', $this->marketing);
 
         if($stmt->execute()){
-            $db = null;
             return true;
         }else{
-            $db = null;
             return false;
         }
     }
-
 }
