@@ -1,4 +1,5 @@
 $('.error').hide();
+$('.success').hide();
 
 $(document).ready(function(){
 
@@ -15,6 +16,13 @@ $(document).ready(function(){
         $("html,body").animate({"scrollTop": position}, 500);
 
         e.preventDefault();
+    });
+
+    //remove errorborder on focusout (non obligatoire)
+    $("input").on("focusout", function(e){
+        e.preventDefault();
+
+        removeError($(this));
     });
 
     //check input q1
@@ -116,6 +124,7 @@ $(document).ready(function(){
 
         //reset errors
         $('.error').text("").hide();
+        $('.success').text("").hide();
 
         //do ajax submission
         $.ajax({
@@ -133,7 +142,7 @@ $(document).ready(function(){
                $("#submit").prop("disabled", true);
 
                //show feedback
-               $("#feedback_success").text("Woehoew, deelname voltooid!");
+               $("#feedback_success").text("Woehoew, deelname voltooid!").show();
            }else{
                //set errormessages
                $.each(data, function(i,v){

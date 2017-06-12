@@ -9,6 +9,9 @@ include_once 'helper.php';
 $vraag_een = $vraag_twee = $naam = $voornaam = $straat = $huisnummer = $postcode = $stad = $telefoonnummer = $verjaardag = $email = $conditions = $marketing = "";
 $feedback_success = $feedback_error = "";
 
+//get mail
+$email = test_input($_GET['mail']);
+
 //array with errors
 $errors = [];
 
@@ -63,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $naam = test_input($_POST["naam"]);
         //check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/",$naam)) {
+        if (!preg_match("/^[a-zA-Z ]*$/",$naam) || strlen($naam > 255)) {
             $errors["naam"] = "Een naam kan enkel letters en spaties bevatten.";
         }
     }
@@ -74,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $voornaam = test_input($_POST["voornaam"]);
         //check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/",$voornaam)) {
+        if (!preg_match("/^[a-zA-Z ]*$/",$voornaam) || strlen($voornaam > 255)) {
             $errors["voornaam"] = "Een voornaam kan enkel letters en spaties bevatten.";
         }
     }
@@ -126,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //telefoonnummer
     if(!empty($_POST["telefoonnummer"])){
         $telefoonnummer = test_input($_POST["telefoonnummer"]);
-        if(strlen($telefoonnummer) > 12){
+        if(!preg_match('/^[0-9]+$/', $telefoonnummer) || strlen($telefoonnummer) < 8 ||strlen($telefoonnummer) > 14){
             $errors["telefoonnummer"] = "Een telefoonnummer mag enkel uit cijfers bestaan en moet tussen de 8 en de 12 cijfers bevatten.";
         }
     }

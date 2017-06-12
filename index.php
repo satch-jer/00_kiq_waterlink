@@ -1,6 +1,7 @@
 <?php
 
-include('php/process.php');
+include_once('php/process.php');
+include_once('php/helper.php');
 
 ?>
 

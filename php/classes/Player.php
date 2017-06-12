@@ -111,21 +111,6 @@ class Player{
         }
     }
 
-    //insert
-    public function insertPlayer(){
-        $db = Db::getInstance();
-
-        $stmt = $db->prepare("INSERT INTO players (mail, expiration) VALUES(:mail, :expiration)");
-        $stmt->bindParam(':mail', $this->mail);
-        $stmt->bindParam(':expiration', $this->expiration);
-
-        if($stmt->execute()){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     //check if mail exists
     public function exist($mail){
         $db = Db::getInstance();
