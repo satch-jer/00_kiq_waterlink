@@ -9,7 +9,7 @@ include_once('php/helper.php');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="Water-Link">
+    <meta name="author" content="water-link">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -17,7 +17,7 @@ include_once('php/helper.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" href="css/styling.css">
-    <title>Neem nu deel | Water-Link</title>
+    <title>Neem nu deel | water-link</title>
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
 </head>
 
@@ -30,7 +30,7 @@ include_once('php/helper.php');
             <div class="parallax text-center" style="background-image: url(assets/waterlink.png);">
                 <div class="container text-center vertical-center">
                     <div class="titles">
-                        <img id="logo" src="assets/picture.png" alt="Water-Link, speel mee en win!">
+                        <img id="logo" src="assets/picture.png" alt="water-Link, speel mee en win!">
                         <button id="play" class="btn-primary"><a href="#form">Speel nu mee!</a></button>
                     </div>
                 </div>
@@ -163,8 +163,8 @@ include_once('php/helper.php');
 
     <section class="footer">
         <div class="container">
-            <p>© - 2017 - Spread the Water by <a href="http://www.water-link.be">Water-Link</a></p>
-        </div>
+            <p>Vragen over de wedstrijd of problemen met de registratie, stuur een mail naar <a href="mailto:wedstrijd@spreadthewater.be">wedstrijd@spreadthewater.be</a></p>
+            <p>© - 2017 - Spread the Water by <a href="http://www.water-link.be">water-link</a></p></div>
     </section>
 </div>
 

@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $naam = test_input($_POST["naam"]);
         //check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/",$naam) || strlen($naam > 255)) {
+        if (!preg_match("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u",$naam) || strlen($naam > 255)) {
             $errors["naam"] = "Een naam kan enkel letters en spaties bevatten.";
         }
     }
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $voornaam = test_input($_POST["voornaam"]);
         //check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/",$voornaam) || strlen($voornaam > 255)) {
+        if (!preg_match("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u",$voornaam) || strlen($voornaam > 255)) {
             $errors["voornaam"] = "Een voornaam kan enkel letters en spaties bevatten.";
         }
     }
@@ -121,8 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //stad
     if(!empty($_POST["stad"])){
         $stad = test_input($_POST["stad"]);
-        if(strlen($stad) > 100){
-            $errors["stad"] = "De opgegeven stadsnaam is wel wat lang ...";
+        if(!preg_match("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u",$stad) || strlen($stad) > 100){
+            $errors["stad"] = "Een stadsnaam kan enkel letters en spaties bevatten ...";
         }
     }
 
@@ -137,6 +137,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //verjaardag
     if(!empty($_POST["verjaardag"])){
         $verjaardag = test_input($_POST["verjaardag"]);
+
+        if(!validateAge($verjaardag)){
+            $errors["verjaardag"] = "Je moet minimum 12 jaar zijn om te mogen deelnemen, sorry.";
+        }
     }
 
     //marketing
@@ -180,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //update player in db
             if($player->updatePlayer($email)){
-                $feedback_success = "Woehoew, deelname voltooid!";
+                $feedback_success = "Woehoew, deelname voltooid! We hebben jou zonet een e-mail gestuurd met het juiste antwoord.";
             }else{
                 $feedback_error = "Er ging iets mis met het opslaan van de gebruiker in de databank, probeer later opnieuw.";
             }

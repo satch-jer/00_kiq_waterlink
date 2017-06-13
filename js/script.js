@@ -41,10 +41,17 @@ $(document).ready(function(){
         e.preventDefault();
 
         //check if empty
-        if(checkEmpty($(this).val())){
+        if(checkEmpty($(this).val())) {
             addError($(this), "Doe een gokje!");
         }else{
-            removeError($(this));
+            var isnum = /^\d+$/.test($(this).val());
+
+            if(isnum && $(this).val().length <= 10){
+                removeError($(this));
+            }else{
+                addError($(this), "Het antwoord moet een cijfer van maximaal 10 karakters zijn.")
+            }
+
         }
     });
 
@@ -142,7 +149,7 @@ $(document).ready(function(){
                $("#submit").prop("disabled", true);
 
                //show feedback
-               $("#feedback_success").text("Woehoew, deelname voltooid!").show();
+               $("#feedback_success").text("Woehoew, deelname voltooid! We hebben jou zonet een e-mail gestuurd met het juiste antwoord.").show();
            }else{
                //set errormessages
                $.each(data, function(i,v){

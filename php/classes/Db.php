@@ -5,7 +5,6 @@ define('DB_USER', 'ID230103_waterlink');
 define('DB_PASS', '@dmin123');
 define('DB_CHAR', 'utf8');
 
-
 class Db{
     private static $db;
 
